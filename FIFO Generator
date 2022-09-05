@@ -2,7 +2,7 @@
             --#       Project Name  : FIFO                |       
             --#       Engineer      : Engin Tanrıkulu     |      
             --#       Date 	        : 05.09.2022      |     
-            --#        				         |    
+            --#        				          |    
             --#############################################
 
 library IEEE;
