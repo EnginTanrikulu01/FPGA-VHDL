@@ -1,0 +1,107 @@
+ 	          --####################################################
+            --#       Project Name  : FIFO                       # 
+            --#       Engineer      : Engin Tanrıkulu           #  
+            --#       Date 	        : 05.09.2022               #   
+            --#        				                                #    
+            --###############################################
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity fifo_controller is
+--  Port ( );
+end fifo_controller;
+architecture Behavioral of fifo_controller is
+
+component fifo_generator_0 IS
+  PORT (
+    clk   : IN STD_LOGIC;
+    srst  : IN STD_LOGIC;
+    din   : IN STD_LOGIC_VECTOR(17 DOWNTO 0);
+    wr_en : IN STD_LOGIC;
+    rd_en : IN STD_LOGIC;
+    dout  : OUT STD_LOGIC_VECTOR(17 DOWNTO 0);
+    full  : OUT STD_LOGIC;
+    empty : OUT STD_LOGIC
+  );
+END component;
+    signal clk   : std_logic;
+    signal srst  : std_logic;
+    signal din   : STD_LOGIC_VECTOR(17 DOWNTO 0);
+    signal wr_en : STD_LOGIC;
+    signal rd_en : STD_LOGIC;
+    signal dout  : STD_LOGIC_VECTOR(17 DOWNTO 0);
+    signal full  : STD_LOGIC;
+    signal empty : STD_LOGIC;
+    signal din_reg : std_logic_vector(17 downto 0);
+begin
+
+    D : fifo_generator_0
+     port map(
+    clk     => clk     ,
+    srst    => srst    ,
+    din     => din     ,
+    wr_en   => wr_en   ,
+    rd_en   => rd_en   ,
+    dout    => dout    ,
+    full    => full    ,
+    empty   => empty
+    );
+    
+P_CLK : process begin
+    clk<='0';
+    wait for 5 ns;
+    clk<='1';
+    wait for 5 ns;
+end process;
+
+P_din : process begin
+    wait for 15 ns;
+    din <= "000000000000000001";  --1
+    wr_en <='1';
+    wait for 10 ns;
+    din <= "000000000000000010";    --2
+    wr_en <='1';
+    wait for 10 ns;
+    din <= "000000000000000011";    --3
+    wr_en <='1';
+    wait for 10 ns;
+    din <= "000000000000000100";    --4
+    wr_en <='1';
+    wait for 10 ns;
+    din <= "000000000000000101";    --5
+    wr_en <='1';
+    wait for 10 ns;
+    din <= "000000000000000110";    --6
+    wr_en <='1';
+    wait for 10 ns;
+    din <= "000000000000000111";    --7
+    wr_en <='1';
+    wait for 10 ns;
+    din <= "000000000000001000";    --8
+    wr_en <='1';
+    wait for 10 ns;
+    din <= "000000000000001001";    --9
+    wr_en <='1';
+    wait for 10 ns;
+    din <= "000000000000001010";    -- 10
+    wr_en <='1';
+    wait for 11 ns;
+    wr_en <='0';
+    din <= "UUUUUUUUUUUUUUUUUU";
+    wait for 105 ns;
+end process;
+
+P_rd : process begin
+    rd_en <='0';
+    wait for 120 ns;
+    rd_en <='1';
+    wait for 115 ns;
+    assert false
+    report "SIM DONE"
+    severity failure;
+end process;
+   
+    
+
+end Behavioral;
