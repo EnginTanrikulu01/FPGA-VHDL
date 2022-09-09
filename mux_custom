@@ -1,0 +1,22 @@
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity top is
+ Port ( 
+        in1 : in std_logic_vector(7 downto 0);
+        out1: out std_logic_vector(7 downto 0);
+        out2 : out std_logic_vector(7 downto 0)
+  );
+end top;
+
+architecture Behavioral of top is
+signal buff: std_logic_vector (7 downto 0);
+
+begin
+
+buff <= in1;
+out1 <= buff;
+out2 <= buff;
+
+end Behavioral;
