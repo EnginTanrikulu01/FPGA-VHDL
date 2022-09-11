@@ -1,0 +1,51 @@
+
+#include <stdio.h>
+#include "platform.h"
+#include "xparameters.h"
+# include "sleep.h"
+
+uint32_t *led_adres;
+uint32_t *button_adres;
+long fullCycle = 10000;
+long onCycle   = 500;
+
+void led_cycle();
+
+int main()
+{
+
+	led_adres		= (uint32_t*) XPAR_AXI_GPIO_1_BASEADDR;
+	button_adres	= (uint32_t*) XPAR_AXI_GPIO_0_BASEADDR;
+
+
+	while(1)
+	{
+
+		if (*button_adres ==0x01){
+			onCycle +=100;
+		}
+		else if (*button_adres ==0x02){
+			onCycle -=100;
+		}
+
+		if(onCycle<0){
+			onCycle =100;
+		}
+		else if(onCycle>10000){
+			onCycle =9000;
+		}
+		led_cycle();
+
+	}
+
+
+    return 0;
+}
+
+void led_cycle()
+{
+	*led_adres = 0x0F;
+	usleep(onCycle);
+	*led_adres = 0x00;
+	usleep(fullCycle-onCycle);
+}
